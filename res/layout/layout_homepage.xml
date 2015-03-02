@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+	    android:layout_width="fill_parent"
+	    android:orientation="vertical">
+	    
+   <android.support.v7.widget.Toolbar
+	    xmlns:app="http://schemas.android.com/apk/res-auto"
+	    android:id="@+id/my_awesome_toolbar"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:minHeight="?attr/actionBarSize"
+	    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+	    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+	    android:background="#9C27B0"
+	     />
+
+<android.support.v4.widget.DrawerLayout
+    
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+ 
+    
+     <FrameLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#eeeeee"
+        android:orientation="vertical" >
+		
+
+		<Button
+		    android:id="@+id/Mapbutton"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="Map" />
+
+    	
+    		
+    	<FrameLayout
+    	    android:layout_height="match_parent"
+              android:layout_width="match_parent"> 
+    		<ListView
+              android:id="@+id/list"
+              android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:dividerHeight="15sp"
+              android:divider="#eeeeee">
+         	</ListView>
+         		<Button
+	        	android:id="@+id/newstorybutton"
+	        	android:layout_width="60dp"
+	        	android:layout_height="60dp"
+	        	android:layout_gravity="bottom|right"
+	        	android:layout_marginTop="15sp"
+	        	android:layout_marginRight="15sp"
+	        	android:layout_marginBottom="15sp"
+	        	android:background="@drawable/compose"
+	        	 />
+ 		</FrameLayout>
+    </LinearLayout>
+    
+        
+        </FrameLayout>
+        />
+    <!--Navigation Drawer-->
+    <ListView android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#fff"/>
+<!--Main layout file-->
+
+</android.support.v4.widget.DrawerLayout>
+
+</LinearLayout>

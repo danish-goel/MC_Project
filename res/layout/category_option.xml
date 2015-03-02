@@ -1,0 +1,65 @@
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+		    
+        <android.support.v7.widget.Toolbar
+	    xmlns:app="http://schemas.android.com/apk/res-auto"
+	    android:id="@+id/my_awesome_toolbar"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:minHeight="?attr/actionBarSize"
+	    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+	    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+	    android:background="#9C27B0" />
+        
+        <com.example.mc_project.categoryPost.SlidingTabLayout
+	          android:id="@+id/sliding_tabs"
+	          android:layout_width="match_parent"
+	          android:layout_height="wrap_content" />
+        
+         <android.support.v4.widget.DrawerLayout
+		    android:id="@+id/drawer_layout"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent">
+		    
+	    <FrameLayout 
+			    android:layout_width="match_parent"
+			    android:layout_height="match_parent"
+			    android:id="@+id/frameFrame">
+	        <FrameLayout 
+	             android:layout_width="match_parent"
+	    		 android:layout_height="match_parent">
+	    		 
+			        <android.support.v4.view.ViewPager
+					    android:id="@+id/pager"				    
+				    	android:layout_width="match_parent"
+				    	android:layout_height="match_parent" />
+		        
+		    		<Button
+				         android:id="@+id/compose"
+				         android:layout_width="60dp"
+				         android:layout_height="60dp"
+				         android:layout_marginRight="24sp"
+				         android:layout_marginBottom="24sp"
+				         android:layout_gravity="bottom|right"
+				         android:background="@drawable/compose" />
+    		
+    		</FrameLayout>
+    		
+   </FrameLayout>	
+   
+    	<ListView android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:background="#FFF"/>
+    	
+	</android.support.v4.widget.DrawerLayout>
+	
+</LinearLayout>
