@@ -21,11 +21,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.facebook.HttpMethod;
 import com.facebook.Request;
+import com.facebook.RequestAsyncTask;
+import com.facebook.RequestBatch;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 
@@ -36,7 +40,8 @@ public class LoginFragment extends Fragment
 	private static final String TAG = "LoginFragment";
 	String useremail="";
 	String username="";
-	String userLikes="";
+	StringBuilder all_likes=new StringBuilder();
+	Request nextRequest;
 	@Override
 	public void onCreate(Bundle savedInstanceState) 
 	{
@@ -122,23 +127,19 @@ public class LoginFragment extends Fragment
 				{
 					if (user != null) 
 					{
+						doBatchRequest();
+						
 						username=user.getName();
 						useremail=user.getProperty("email").toString();
 						Log.d("fbval","name:"+username);
 						Log.d("fbval","email:"+useremail);
-						try
-						{
-							Log.d("fbval","likes:"+userLikes);
-						}
-						catch(Exception e)
-						{
-							
-						}
 						
 						SharedPreferences sett = getActivity().getSharedPreferences(getLocation.PREFS_NAME, 0);
 						SharedPreferences.Editor editor = sett.edit();
 					    editor.putBoolean("login",true);
 					    editor.putString("login_type","facebook");
+					    editor.putString("useremail",useremail);
+					    editor.putString("username",username);
 					    editor.commit();
 					    
 						Intent fetchHomepage=new Intent("com.example.mc_project.homePage.FetchHomepage");
@@ -162,6 +163,86 @@ public class LoginFragment extends Fragment
 	        onSessionStateChange(session, state, exception);
 	    }
 	};
+	
+	private void followNextLink(Request nRequest)
+	{
+		nextRequest=nRequest;
+		    Request.Callback callback = new Request.Callback() 
+		    {
+
+		        @Override
+		        public void onCompleted(Response response) 
+		        {
+		        	Log.d("fb_graph","1"+response.toString());
+		        	all_likes.append(response.toString());
+		        }
+		    };
+
+		    RequestAsyncTask task = new RequestAsyncTask(nextRequest);
+		    task.execute();
+	}
+	
+	private void doBatchRequest() 
+	{
+		
+		 Session session = Session.getActiveSession();
+		    Request.Callback callback = new Request.Callback() {
+
+		        @Override
+		        public void onCompleted(Response response) 
+		        {
+		            // response should have the likes
+//		            Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+		        	Log.d("fb_graph",response.toString());
+//		        	all_likes.append(response.toString());
+//		        	int i=0;
+//		        	  while(i==0) 
+//		        	  {
+//		        		  nextRequest=response.getRequestForPagedResults(Response.PagingDirection.NEXT);
+//		        		  if (nextRequest != null) 
+//		  	            {
+//		        			  followNextLink(nextRequest);
+//		  	            } 
+//		  	            else 
+//		  	            {
+//		  	            }
+//		  	        }
+		        }
+		    };
+		    Bundle params = new Bundle();
+		    params.putString("limit","1000");
+		    params.putString("offset","2000");
+		    Request request = new Request(session, "me/likes",params, HttpMethod.GET, callback);
+		    RequestAsyncTask task = new RequestAsyncTask(request);
+		    task.execute();
+		
+		
+//	    String[] requestIds = {"me"};
+
+//	    RequestBatch requestBatch = new RequestBatch();
+//	    for (final String requestId : requestIds) 
+//	    {
+//	        requestBatch.add(new Request(Session.getActiveSession(), 
+//	                requestId, null, null, new Request.Callback() 
+//	        {
+//		            public void onCompleted(Response response) 
+//		            {
+//		                GraphObject graphObject = response.getGraphObject();
+//		                if (graphObject != null) 
+//		                {
+//		                    if (graphObject.getProperty("id") != null) 
+//		                    {
+//		                        s = s + String.format("%s: %s\n", 
+//		                        		graphObject.getProperty("me/likes"),
+//		                                graphObject.getProperty("name"));
+//		                    }
+//		                }
+//		                Log.d("fb_graph",s);
+//		            }
+//	        }));
+//	    }
+//	    requestBatch.executeAsync();
+	}
 	
 	
 }

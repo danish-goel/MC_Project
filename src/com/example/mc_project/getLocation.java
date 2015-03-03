@@ -85,7 +85,6 @@ public class getLocation extends Activity
 								if(loginStatus)
 								{
 									Intent fetchHomepage=new Intent(Constants.fetchHomepage);
-									fetchHomepage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 									startActivity(fetchHomepage);
 								}
 								else

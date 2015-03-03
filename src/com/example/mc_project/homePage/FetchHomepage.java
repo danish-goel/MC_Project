@@ -63,7 +63,6 @@ import android.widget.Toast;
 
 public class FetchHomepage extends ActionBarActivity
 {
-	List<Post> posts_list=new ArrayList<Post>();
 	ProgressDialog pd;
 	
 	@Override
@@ -97,8 +96,8 @@ public class FetchHomepage extends ActionBarActivity
 		@Override
 		protected Void doInBackground(Void... params) 
 		{
-			fetchGooglePlaces();
-			fetch_nearby_posts();
+			Constants.fetchGooglePlaces();
+			Constants.fetch_nearby_posts();
 			return null;
 		}
 		
@@ -107,7 +106,7 @@ public class FetchHomepage extends ActionBarActivity
 		{
 			try{pd.setCancelable(true);}catch(Exception e){}
 			try{pd.dismiss();}catch(Exception e){}
-			populateList();
+			Constants.populateAllPosts();
 			Intent homepage=new Intent("com.example.mc_project.homePage.Homepage");
 			startActivity(homepage);
 			finish();
@@ -117,67 +116,8 @@ public class FetchHomepage extends ActionBarActivity
 	 }
 		
 	 
-		void populateList()
-		{
-			for(Post post:Constants.nearByPosts)
-			{
-				Constants.all_posts.add(post);
-			}
-			Log.d("googleplaces",Constants.nearByPlaces.toString());
-			for(Places place:Constants.nearByPlaces)
-			{
-				Constants.all_posts.add(place);
-				Log.d("googleplaces",place.toString());
-			}
-		}
-		
-	public void fetchGooglePlaces()
-	{
-			GooglePlaces x=new GooglePlaces();
-			try
-			{
-				String placesSearchStr ="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
-		        +URLEncoder.encode(String.valueOf(Constants.latitude), "UTF-8")
-		        +","
-		        +URLEncoder.encode(String.valueOf(Constants.longitude), "UTF-8")
-		        +"&radius="
-				+URLEncoder.encode("2000", "UTF-8")
-				+"&sensor="
-				+URLEncoder.encode("true", "UTF-8")
-				+"&types="
-				+URLEncoder.encode("food|bar|church|museum|art_gallery", "UTF-8")
-				+"&key="
-				+URLEncoder.encode(GooglePlaces.api_key, "UTF-8");
-									
-				x.runAsyntask(placesSearchStr);
-				Constants.nearByPlaces=x.getGoogle_places_Array();
-			}
-			catch (UnsupportedEncodingException e)
-			{
-			        // TODO Auto-generated catch block
-			        e.printStackTrace();
-			}
-		
+	
 
-	 }
-	 
-
-		public void fetch_nearby_posts()
-		{
-				
-				Post x=new Post();
-				try 
-				{
-					posts_list=x.getNearbyPosts();
-				} 
-				catch (ParseException e) 
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				Constants.nearByPosts=posts_list;
-				
-		}
 		
 		
 		 public void initPD() 

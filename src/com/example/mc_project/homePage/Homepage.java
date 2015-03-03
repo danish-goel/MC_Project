@@ -27,11 +27,14 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
@@ -60,7 +63,8 @@ public class Homepage extends ActionBarActivity
 	
 	ListView listView ;
 	ProgressDialog pd;
-	
+	SwipeRefreshLayout swipeLayout;
+	CustomList cList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -160,12 +164,26 @@ public class Homepage extends ActionBarActivity
 		        
 		     /*-----------------------------------------------------------------*/
 		        
+		     
+		     swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+		        swipeLayout.setOnRefreshListener(new OnRefreshListener() 
+		        {
+					@Override
+					public void onRefresh() 
+					{
+						new RefreshList().execute();
+					}
+				});
+		        swipeLayout.setColorScheme(android.R.color.holo_blue_bright, 
+		                android.R.color.holo_green_light, 
+		                android.R.color.holo_orange_light, 
+		                android.R.color.holo_red_light);
 
 	}
 	 
 		public void setlayout()
 		{
-			 CustomList cList = new CustomList(Constants.all_posts,Homepage.this);
+			 cList = new CustomList(Constants.all_posts,Homepage.this);
 		     listView.setAdapter(cList);
 		     try{pd.setCancelable(true);}catch(Exception e){}
 	    		try{pd.dismiss();}catch(Exception e){}
@@ -216,4 +234,28 @@ public class Homepage extends ActionBarActivity
 				pd.setIndeterminate(true);
 				pd.setCancelable(false);
 		 }
+		 
+		 public class RefreshList extends AsyncTask<Void, Void, Void>
+		 {
+			 
+			@Override
+			protected Void doInBackground(Void... params) 
+			{
+				Constants.fetch_nearby_posts();
+				Log.d("newpost",Constants.nearByPosts.toString());
+				return null;
+			}
+			
+			@Override
+			protected void onPostExecute(Void result) 
+			{
+				Constants.populateAllPosts();
+				Log.d("newpost","1\t"+Constants.nearByPosts.toString());
+				cList.notifyDataSetChanged();
+				swipeLayout.setRefreshing(false);
+				super.onPostExecute(result);
+			}
+			 
+		 }
+		 
 }

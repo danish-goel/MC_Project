@@ -15,6 +15,7 @@ import com.example.mc_project.classes.Constants;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -60,6 +61,7 @@ public class AddPost extends Activity
 	ParseObject testObject = new ParseObject("Post");
 	private Uri fileUri;
 	Spinner s;
+	public static final String PREFS_NAME = "login";
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -91,8 +93,11 @@ public class AddPost extends Activity
 			{
 				
 				String text=story.getText().toString();
-				String useremail = Constants.user_email;
-				String username = Constants.user_name;
+				
+				SharedPreferences sett = getSharedPreferences(PREFS_NAME, 0);
+				String useremail=sett.getString("useremail","");
+				String username=sett.getString("username","");
+				
 				Double lat = Constants.latitude;
 				Double lng = Constants.longitude;
 				String tag=s.getSelectedItem().toString();
@@ -157,7 +162,7 @@ public class AddPost extends Activity
 											testObject.saveInBackground();
 										}
 									});
-						    		Intent i=new Intent("com.example.mc_project.homePage.FetchHomepage");
+						    		Intent i=new Intent(Constants.homePage);
 									startActivity(i);
 							}
 						}	
@@ -199,13 +204,13 @@ public class AddPost extends Activity
 									testObject.saveInBackground();
 								}
 							});
-				    		Intent i=new Intent("com.example.mc_project.homePage.FetchHomepage");
+				    		Intent i=new Intent(Constants.homePage);
 							startActivity(i);
 						}
 				}	
 				else
 				{
-					Intent i=new Intent("com.example.mc_project.homePage.FetchHomepage");
+					Intent i=new Intent(Constants.homePage);
 					startActivity(i);
 				}
 	

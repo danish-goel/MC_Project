@@ -254,6 +254,8 @@ public class Login extends ActionBarActivity implements OnClickListener,Connecti
 					SharedPreferences.Editor editor = sett.edit();
 				    editor.putBoolean("login",true);
 				    editor.putString("login_type","google");
+				    editor.putString("useremail",email);
+				    editor.putString("username",personName);
 				    editor.commit();
 	                
 	                Intent i=new Intent(Constants.fetchHomepage);
@@ -338,8 +340,8 @@ public class Login extends ActionBarActivity implements OnClickListener,Connecti
 			 	pd.dismiss();
 	        	break;
 	        }
-			case R.id.authButton:
-			{
+//			case R.id.authButton:
+//			{
 //				 if (savedInstanceState == null)
 //				    {
 //				        // Add the fragment on initial activity setup
@@ -358,8 +360,8 @@ public class Login extends ActionBarActivity implements OnClickListener,Connecti
 //				        .findFragmentById(android.R.id.content);
 //				    }
 //					finish();
-				break;
-			}
+//				break;
+//			}
 		
 		}
 	}
@@ -405,11 +407,11 @@ public class Login extends ActionBarActivity implements OnClickListener,Connecti
 				SharedPreferences.Editor editor = sett.edit();
 			    editor.putBoolean("login",true);
 			    editor.putString("login_type","parse");
+			    editor.putString("useremail",name);
 			    editor.commit();
 			    
 				user=ParseUser.logIn(name,password);
 				Intent fetchHomepage=new Intent(Constants.fetchHomepage);
-				fetchHomepage.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(fetchHomepage);
 			} 
 			catch (ParseException e) 

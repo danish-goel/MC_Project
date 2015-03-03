@@ -39,7 +39,7 @@ public class CustomList extends BaseAdapter
 	
 	public CustomList(List<Object> objDrwList,Context scontext)
 	{
-		
+		Log.d("customlist","constructor");
 		this.listOfObjects = objDrwList;
 		this.superContext = scontext;
 	}
@@ -87,7 +87,7 @@ public class CustomList extends BaseAdapter
 	@Override
 	public int getCount() 
 	{
-		
+		Log.d("customlist","getCount");
 		return this.listOfObjects.size();
 	}
 
@@ -111,7 +111,7 @@ public class CustomList extends BaseAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) 
 	{
-			
+		Log.d("customlist","getView");
 		if(this.listOfObjects.get(position) instanceof Post)
 		{
 				Post currentObject = (Post)this.listOfObjects.get(position);

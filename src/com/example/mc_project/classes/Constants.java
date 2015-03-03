@@ -1,6 +1,8 @@
 package com.example.mc_project.classes;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,9 @@ import java.util.List;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
+import com.example.mc_project.places.GooglePlaces;
 import com.example.mc_project.places.Places;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -17,8 +21,8 @@ public class Constants
 {
 	public static int nearby_distance=2;
 	public static Double latitude,longitude;
-	public static String user_name;
-	public static String user_email;
+//	public static String user_name;
+//	public static String user_email;
 	public static Post post;
 	public static Places place;
 	
@@ -140,5 +144,69 @@ public class Constants
 	        mTitles = new String[]{"Home","Browse By Category"};
 			return mTitles;
 		}
+		
+		public static void fetchGooglePlaces()
+		{
+				GooglePlaces x=new GooglePlaces();
+				try
+				{
+					String placesSearchStr ="https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="
+			        +URLEncoder.encode(String.valueOf(Constants.latitude), "UTF-8")
+			        +","
+			        +URLEncoder.encode(String.valueOf(Constants.longitude), "UTF-8")
+			        +"&radius="
+					+URLEncoder.encode("2000", "UTF-8")
+					+"&sensor="
+					+URLEncoder.encode("true", "UTF-8")
+					+"&types="
+					+URLEncoder.encode("food|bar|church|museum|art_gallery", "UTF-8")
+					+"&key="
+					+URLEncoder.encode(GooglePlaces.api_key, "UTF-8");
+										
+					x.runAsyntask(placesSearchStr);
+					Constants.nearByPlaces=x.getGoogle_places_Array();
+				}
+				catch (UnsupportedEncodingException e)
+				{
+				        // TODO Auto-generated catch block
+				        e.printStackTrace();
+				}
+			
+
+		 }
+		 
+
+			public static void fetch_nearby_posts()
+			{
+					List<Post> posts_list=new ArrayList<Post>();
+					Post x=new Post();
+					try 
+					{
+						posts_list=x.getNearbyPosts();
+					} 
+					catch (ParseException e) 
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Constants.nearByPosts=posts_list;
+					
+			}
+			
+			public static void populateAllPosts()
+			{
+				all_posts.clear();
+				for(Post post:nearByPosts)
+				{
+					Constants.all_posts.add(post);
+				}
+				Log.d("googleplaces",Constants.nearByPlaces.toString());
+				for(Places place:Constants.nearByPlaces)
+				{
+					Constants.all_posts.add(place);
+					Log.d("googleplaces",place.toString());
+				}
+			}
+			
 	
 }
