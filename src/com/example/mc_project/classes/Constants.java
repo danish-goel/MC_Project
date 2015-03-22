@@ -40,7 +40,7 @@ public class Constants
 	public static String fetchHomepage="com.example.mc_project.homePage.FetchHomepage";
 	public static String CategoryActivity="com.example.mc_project.categoryPost.CategoryActivity";
 	public static String MessageActivity="com.example.mc_project.message.MessageActivity";
-	
+	public static String FriendsActivity="com.example.mc_project.friends.ShowFriends";
 	
 	
 	public static Bitmap getBitmap(ParseFile parseFile) throws ParseException
@@ -142,6 +142,11 @@ public class Constants
 				Intent askquestion=new Intent(MessageActivity);
 				return askquestion;
 			}
+			if(position==3)
+			{
+				Intent askquestion=new Intent(FriendsActivity);
+				return askquestion;
+			}
 
 			return null;
 			
@@ -150,7 +155,7 @@ public class Constants
 		public static String[] getDrawerItems()
 		{
 			String mTitles[];
-	        mTitles = new String[]{"Home","Browse By Category","Message"};
+	        mTitles = new String[]{"Home","Browse By Category","Message","Friends"};
 			return mTitles;
 		}
 		

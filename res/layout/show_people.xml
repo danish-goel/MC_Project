@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:orientation="vertical">
+
+    <LinearLayout 
+        android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:background="@drawable/bg_card"
+    android:layout_marginLeft="8sp"
+    android:layout_marginRight="8sp"
+    android:layout_marginTop="10sp"
+    android:orientation="vertical">
+    	
+        <TextView 
+               android:id="@+id/Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:text="Name"/>
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_button_white"
+			android:textColor="@color/darkblue"
+            android:focusable="false"
+            android:layout_gravity="right"
+            android:text="Add" />
+
+		
+	</LinearLayout>
+</LinearLayout>

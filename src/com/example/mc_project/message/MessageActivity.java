@@ -143,7 +143,7 @@ public class MessageActivity extends ActionBarActivity
 		public void setRightDrawer()
 	    {
 	        String TITLES[] = Constants.getDrawerItems();
-	        int ICONS[] = {R.drawable.ic_home,R.drawable.ic_calender,R.drawable.ic_mail};
+	        int ICONS[] = {R.drawable.ic_home,R.drawable.ic_calender,R.drawable.ic_mail,R.drawable.ic_mail};
 
 	        //Similarly we Create a String Resource for the name and email in the header view
 	        //And we also create a int resource for profile picture in the header view

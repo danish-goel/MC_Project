@@ -162,6 +162,15 @@
             </intent-filter>
         </activity>
         
+        <activity
+            android:name="com.example.mc_project.friends.ShowFriends"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.example.mc_project.friends.ShowFriends" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
           
         
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
