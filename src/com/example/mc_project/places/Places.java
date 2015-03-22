@@ -2,6 +2,7 @@ package com.example.mc_project.places;
 
 import java.util.ArrayList;
 
+import com.example.mc_project.classes.Constants;
 import com.google.android.gms.maps.model.LatLng;
 
 public class Places 
@@ -68,5 +69,15 @@ public class Places
 	}
 	public void setGeopoint(LatLng geopoint) {
 		this.geopoint = geopoint;
+	}
+	
+	public String getTypeString()
+	{
+		String resultType="";
+		for(String s:types)
+		{
+			resultType+=Constants.capitaliseFirstLetter(s)+",";
+		}
+		return resultType;
 	}
 }

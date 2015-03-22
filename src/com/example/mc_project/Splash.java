@@ -1,5 +1,7 @@
 package com.example.mc_project;
 
+import com.parse.Parse;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,6 +28,7 @@ public class Splash extends Activity
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
+		Parse.initialize(this, "cIlG71ZlahKyRJv8kaJ0L2y6hDbdvixZyimny8tH", "QhqzYsrDG8GwvzTqvX2LcV6ZgCAhhy2pPW4Corg7");
 		setContentView(R.layout.splash_layout);
 		manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
 		

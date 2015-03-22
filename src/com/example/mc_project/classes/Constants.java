@@ -16,19 +16,21 @@ import com.example.mc_project.places.GooglePlaces;
 import com.example.mc_project.places.Places;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 
 public class Constants 
 {
-	public static int nearby_distance=2;
+	public static int nearby_distance=3;
 	public static Double latitude,longitude;
-//	public static String user_name;
-//	public static String user_email;
+	public static String user_name;
+	public static String user_email;
 	public static Post post;
 	public static Places place;
 	
 	public static List<Post> nearByPosts=new ArrayList<Post>();
 	public static List<Places> nearByPlaces=new ArrayList<Places>();
 	public static List<Object> all_posts=new ArrayList<Object>();
+	public static ParseUser user;
 	
 	public static String viewSinglePost="com.example.mc_project.singlePost.ViewSinglePost";
 	public static String viewSinglePlace="com.example.mc_project.singlePost.ViewSinglePlace";
@@ -36,7 +38,9 @@ public class Constants
 	public static String map="com.example.mc_project.map.Map";
 	public static String homePage="com.example.mc_project.homePage.Homepage";
 	public static String fetchHomepage="com.example.mc_project.homePage.FetchHomepage";
-	public static String CategoryActivity="com.example.mc_project.categoryPost.CategoryActivity"; 
+	public static String CategoryActivity="com.example.mc_project.categoryPost.CategoryActivity";
+	public static String MessageActivity="com.example.mc_project.message.MessageActivity";
+	
 	
 	
 	public static Bitmap getBitmap(ParseFile parseFile) throws ParseException
@@ -133,6 +137,11 @@ public class Constants
 				Intent askquestion=new Intent(CategoryActivity);
 				return askquestion;
 			}
+			if(position==2)
+			{
+				Intent askquestion=new Intent(MessageActivity);
+				return askquestion;
+			}
 
 			return null;
 			
@@ -141,7 +150,7 @@ public class Constants
 		public static String[] getDrawerItems()
 		{
 			String mTitles[];
-	        mTitles = new String[]{"Home","Browse By Category"};
+	        mTitles = new String[]{"Home","Browse By Category","Message"};
 			return mTitles;
 		}
 		
@@ -159,7 +168,7 @@ public class Constants
 					+"&sensor="
 					+URLEncoder.encode("true", "UTF-8")
 					+"&types="
-					+URLEncoder.encode("food|bar|church|museum|art_gallery", "UTF-8")
+					+URLEncoder.encode("food|movie_theater|amusement_park|restaurant", "UTF-8")
 					+"&key="
 					+URLEncoder.encode(GooglePlaces.api_key, "UTF-8");
 										
@@ -206,6 +215,13 @@ public class Constants
 					Constants.all_posts.add(place);
 					Log.d("googleplaces",place.toString());
 				}
+			}
+			
+			public static String capitaliseFirstLetter(String string)
+			{
+				StringBuilder sb = new StringBuilder(string);
+				sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));  
+				return sb.toString();
 			}
 			
 	

@@ -32,6 +32,7 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
+import com.parse.ParseUser;
 
 public class LoginFragment extends Fragment 
 {
@@ -173,8 +174,9 @@ public class LoginFragment extends Fragment
 		        @Override
 		        public void onCompleted(Response response) 
 		        {
+		        	Log.d("fb_graph","1"+"called");
 		        	Log.d("fb_graph","1"+response.toString());
-		        	all_likes.append(response.toString());
+//		        	all_likes.append(response.toString());
 		        }
 		    };
 
@@ -186,7 +188,8 @@ public class LoginFragment extends Fragment
 	{
 		
 		 Session session = Session.getActiveSession();
-		    Request.Callback callback = new Request.Callback() {
+		    Request.Callback callback = new Request.Callback() 
+		    {
 
 		        @Override
 		        public void onCompleted(Response response) 
@@ -198,21 +201,20 @@ public class LoginFragment extends Fragment
 //		        	int i=0;
 //		        	  while(i==0) 
 //		        	  {
-//		        		  nextRequest=response.getRequestForPagedResults(Response.PagingDirection.NEXT);
+		        		  nextRequest=response.getRequestForPagedResults(Response.PagingDirection.NEXT);
+		        		  followNextLink(nextRequest);
 //		        		  if (nextRequest != null) 
 //		  	            {
 //		        			  followNextLink(nextRequest);
 //		  	            } 
 //		  	            else 
 //		  	            {
+		        		  
 //		  	            }
 //		  	        }
 		        }
 		    };
-		    Bundle params = new Bundle();
-		    params.putString("limit","1000");
-		    params.putString("offset","2000");
-		    Request request = new Request(session, "me/likes",params, HttpMethod.GET, callback);
+		    Request request = new Request(session, "me/likes",null, HttpMethod.GET, callback);
 		    RequestAsyncTask task = new RequestAsyncTask(request);
 		    task.execute();
 		

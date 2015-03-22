@@ -1,8 +1,10 @@
 package com.example.mc_project;
 
 import com.example.mc_project.classes.Constants;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 
 import android.app.Activity;
@@ -33,6 +35,7 @@ public class getLocation extends Activity
 		// TODO Auto-generated method stub
 //		setContentView(R.layout.splash);
 		super.onCreate(savedInstanceState);
+		Parse.initialize(this, "cIlG71ZlahKyRJv8kaJ0L2y6hDbdvixZyimny8tH", "QhqzYsrDG8GwvzTqvX2LcV6ZgCAhhy2pPW4Corg7");
 		init();
 		initPD();
 		pd.show();
@@ -79,7 +82,7 @@ public class getLocation extends Activity
 								Log.d("loc",String.valueOf(Constants.latitude));
 								Log.d("loc",String.valueOf(Constants.longitude));
 								pd.dismiss();
-								
+								Constants.user=setUser();
 								SharedPreferences sett = getSharedPreferences(PREFS_NAME, 0);
 								boolean loginStatus=sett.getBoolean("login",false);
 								if(loginStatus)
@@ -111,5 +114,50 @@ public class getLocation extends Activity
 				pd.setMessage("Fetching Location");
 				pd.setIndeterminate(true);
 				pd.setCancelable(false);
+		 }
+		 
+		 public ParseUser setUser()
+		 {
+			 SharedPreferences sett = getSharedPreferences(PREFS_NAME, 0);
+			 String email=sett.getString("useremail","");
+			 String name=sett.getString("username","");
+			 Constants.user_email=email;
+			 Constants.user_name=name;
+			 ParseUser user=ParseUser.getCurrentUser();
+			 try 
+			 {
+					user = ParseUser.logIn(email, "password");
+					Log.d("user1",user.getObjectId());
+					if(user.getEmail()==null)
+					{
+						Log.d("user2",user.getObjectId());
+						if(user.getEmail()==null && email!=null)
+							user.setEmail(email);
+						try 
+						{
+							user.save();
+						}
+						catch (ParseException e) {	}
+					}
+					return user;
+			 } 
+			 catch (ParseException e1) 
+			 {
+					String debugStr="";
+					try{
+						user = new ParseUser();
+						user.setUsername(email);
+						user.put("Name",name);
+						user.setEmail(email);
+						user.setPassword("password");
+						user.signUp(); 
+						Log.d("user3",user.getObjectId());
+					}
+					catch(Exception excep)
+					{
+						Log.d("jan","x"+excep.getLocalizedMessage()+debugStr);
+					}
+					return user;
+			}
 		 }
 }

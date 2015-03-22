@@ -40,7 +40,7 @@ public class Post
 	
 	public Bitmap getPhoto() throws ParseException 
 	{
-		ParseFile parseFile=(ParseFile)this.po.getParseFile("file");
+		ParseFile parseFile=(ParseFile)this.po.getParseFile("photo");
 		return Constants.getBitmap(parseFile);
 	}
 	
@@ -91,7 +91,28 @@ public class Post
 	{
 		
 	}
+
+	public int getViews()
+	{
+		return this.po.getInt("Views");
+	}
 	
+	public void setViews(int value) throws ParseException
+	{
+		this.po.put("Views",value);
+		this.po.save();
+	}
+	public void incrementViews() throws ParseException
+	{
+		this.po.increment("Views");
+		this.po.save();
+	}
+	
+	public void increaseLikes() throws ParseException
+	{
+		this.po.increment("Like");
+		this.po.save();
+	}
 	public Date getCreatedAt()
 	{
 		return this.po.getCreatedAt();
@@ -106,6 +127,8 @@ public class Post
 		ParseGeoPoint point=new ParseGeoPoint(Constants.latitude,Constants.longitude);
 		Log.d("nearby","point"+point.getLatitude()+point.getLongitude());
 		query.whereWithinKilometers("location", point,Constants.nearby_distance);
+		query.addAscendingOrder("Views");
+		query.addAscendingOrder("Like");
 		lParse=query.find();
 		Log.d("nearby", lParse.toString());
 		for(ParseObject single_post:lParse)

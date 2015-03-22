@@ -9,6 +9,7 @@ import com.example.mc_project.classes.Constants;
 import com.example.mc_project.classes.Post;
 import com.example.mc_project.homePage.CustomList;
 import com.example.mc_project.homePage.Homepage;
+import com.example.mc_project.places.Places;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -74,10 +75,20 @@ public class Category_option_fragment extends Fragment
 			            public void onItemClick(AdapterView<?> parent, View view,int position,long id) 
 			            {
 			                
-			                String item = ((TextView)view).getText().toString();
-			                Intent i=new Intent(Constants.viewSinglePost);
-							i.putExtra("text",item);
-							startActivity(i);
+			            	if(Constants.all_posts.get(position) instanceof Places)
+			            	{
+			            		Log.d("click","click1");
+			            		Constants.place=(Places)Constants.all_posts.get(position);
+			            		Intent askquestion=new Intent(Constants.viewSinglePlace);
+			    				startActivity(askquestion);	
+			            	}
+			            	else if(Constants.all_posts.get(position) instanceof Post)
+			            	{
+			            		Log.d("click","click2");
+			            		Constants.post=(Post)Constants.all_posts.get(position);
+			            		Intent askquestion=new Intent(Constants.viewSinglePost);
+			    				startActivity(askquestion);
+			            	}
 			            }
 			        });
 			

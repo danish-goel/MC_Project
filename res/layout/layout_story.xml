@@ -4,6 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    
+       <android.support.v7.widget.Toolbar
+	    xmlns:app="http://schemas.android.com/apk/res-auto"
+	    android:id="@+id/my_awesome_toolbar"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:minHeight="?attr/actionBarSize"
+	    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+	    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+	    android:background="#9C27B0"
+	     />
+       
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -43,18 +55,23 @@
              <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
-        <TextView 
-            
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Tag:"
-            />
-        <Spinner
-            android:id="@+id/spin"
-            android:layout_width="150sp"
-            android:layout_height="50dp" />
-            </TableRow>
+			        <TextView 
+			            
+			            android:layout_width="match_parent"
+			            android:layout_height="wrap_content"
+			            android:textSize="20sp"
+			            android:text="Tag:"
+			            />
+			        <Spinner
+			            android:id="@+id/spin"
+			            android:layout_width="150sp"
+			            android:layout_height="50dp" />
+			        
+			        <Spinner
+			            android:id="@+id/spinnerlocation"
+			            android:layout_width="150sp"
+			            android:layout_height="50dp" />
+			  </TableRow>
         </TableLayout>
 
         <EditText

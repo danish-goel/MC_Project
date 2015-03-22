@@ -10,10 +10,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import com.example.mc_project.R;
+import com.example.mc_project.getLocation;
 import com.example.mc_project.classes.Constants;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -30,7 +33,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -44,24 +51,107 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-public class AddPost extends Activity
+public class AddPost extends ActionBarActivity
 {
 	EditText story;
 	Button submit,captureButton,videoButton;
 	LocationManager manager;
 	Criteria criteria;
 	Double lat,lng;
-	Spinner sp;
+	
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	static final int REQUEST_VIDEO_CAPTURE = 200;
 	public static final int MEDIA_TYPE_IMAGE = 1;
-	static String picturepath="";
+	String picturepath="";
+	
 	ParseObject testObject = new ParseObject("Post");
 	private Uri fileUri;
-	Spinner s;
+	Spinner s,sploc;
 	public static final String PREFS_NAME = "login";
+	List<ParseObject> Locations;
+	
+	Context context=AddPost.this;
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) 
+	{
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.addpost, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.save_location) 
+        {
+        	saveLocation();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
+    
+    private void saveLocation()
+    {
+	    	AlertDialog.Builder alert = new AlertDialog.Builder(context);
+	    	alert.setTitle("Enter the name of the Location\n"); //Set Alert dialog title here
+	
+	        final EditText input = new EditText(context);
+	        alert.setView(input);
+	
+	    	alert.setPositiveButton("OK", new DialogInterface.OnClickListener() 
+	    	{
+		    	public void onClick(DialogInterface dialog, int whichButton) 
+		    	{
+			    	 String srt = input.getEditableText().toString();
+			    	 
+			    	 ParseGeoPoint lo=new ParseGeoPoint();
+			    	 lo.setLatitude(Constants.latitude);
+			    	 lo.setLongitude(Constants.longitude);
+			    	 
+			    	 ParseObject poLoc=new ParseObject("Location");
+			    	 poLoc.put("Name",srt);
+			    	 poLoc.put("LocationGeopoint",lo);
+			    	 try 
+			    	 {
+						poLoc.save();
+						ParseUser user=Constants.user;
+				    	 Log.d("user11",user.getObjectId());
+				    	 ParseRelation relationLocation = user.getRelation("UserLocation");
+				    	 relationLocation.add(poLoc);
+				    	 user.save();
+					} 
+			    	 catch (ParseException e1) 
+			    	 {
+			    		 Log.d("user11",e1.toString());
+						e1.printStackTrace();
+					}
+			 
+			    	 Toast.makeText(context,srt,Toast.LENGTH_LONG).show();        		
+			    }
+	    	});
+	    	
+	    	alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() 
+	    	{
+		    	  public void onClick(DialogInterface dialog, int whichButton) 
+		    	  {
+		    		  dialog.cancel();
+		    	  }
+	    	});
+	    	
+	    	AlertDialog alertDialog = alert.create();
+	    	alertDialog.show();
+    }
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -69,10 +159,17 @@ public class AddPost extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_story);
 		Parse.initialize(this, "cIlG71ZlahKyRJv8kaJ0L2y6hDbdvixZyimny8tH", "QhqzYsrDG8GwvzTqvX2LcV6ZgCAhhy2pPW4Corg7");
+		
+		Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
+		toolbar.setTitle("New Post");
+		setSupportActionBar(toolbar);
+		
 		story=(EditText)findViewById(R.id.editText1);
 		captureButton=(Button)findViewById(R.id.capture);
 		videoButton=(Button)findViewById(R.id.video);
 		submit=(Button)findViewById(R.id.button1);
+		s = (Spinner) findViewById(R.id.spin);
+		sploc=(Spinner) findViewById(R.id.spinnerlocation);
 		
 		String[] array_spinner = new String[6];
 		array_spinner[0] = "Entertainment";
@@ -81,9 +178,10 @@ public class AddPost extends Activity
 		array_spinner[3] = "Events";
 		array_spinner[4] = "Games";
 		array_spinner[5] = "I was here";
-		s = (Spinner) findViewById(R.id.spin);
 		ArrayAdapter<String>adapter = new ArrayAdapter<String>(AddPost.this,android.R.layout.simple_spinner_dropdown_item, array_spinner);
 		s.setAdapter(adapter);
+		
+		setLocationSpinner();
 		
 		submit.setOnClickListener(new View.OnClickListener() 
 		{
@@ -101,23 +199,42 @@ public class AddPost extends Activity
 				Double lat = Constants.latitude;
 				Double lng = Constants.longitude;
 				String tag=s.getSelectedItem().toString();
+				int spinnerLocationindex=sploc.getSelectedItemPosition();
+				if(spinnerLocationindex!=0)
+				{
+				    testObject.put("location",Locations.get(spinnerLocationindex-1).getParseGeoPoint("LocationGeopoint"));
+				}
+				else
+				{
+					ParseGeoPoint point = new ParseGeoPoint(Double.parseDouble(String.valueOf(lat)), Double.parseDouble(String.valueOf(lng)));
+				    testObject.put("location",point);
+				}
 				Log.d("tag",tag);
 				
 				testObject.put("Email",useremail);	
 				testObject.put("Name",username);
 				testObject.put("Text",text);
-				testObject.put("Latitude",lat);
-				testObject.put("Longitude",lng);
-				ParseGeoPoint point = new ParseGeoPoint(Double.parseDouble(String.valueOf(lat)), Double.parseDouble(String.valueOf(lng)));
-			    testObject.put("location",point);
 				testObject.put("Tag",tag);
-				int j=0;
-				testObject.put("Like",j);
-				testObject.saveInBackground();
+				testObject.put("Like",0);
+				testObject.put("Views",0);
+//				try 
+//				{
+//					testObject.save();
+//					ParseUser user=Constants.user;
+//			    	 Log.d("user11",user.getObjectId());
+//			    	 ParseRelation relationPost = user.getRelation("UserPost");
+//			    	 relationPost.add(testObject);
+//			    	 user.save();
+//				} 
+//				catch (ParseException e2) 
+//				{
+//					e2.printStackTrace();
+//				}
 		
 				byte[] bite;
 				if(picturepath!="")
 				{
+						
 						if(picturepath.endsWith(".mp4"))
 						{
 							String nm;
@@ -160,6 +277,19 @@ public class AddPost extends Activity
 											Log.d("upload","uploaded");
 											testObject.put("photo", file);
 											testObject.saveInBackground();
+											try 
+											{
+												testObject.save();
+												ParseUser user=Constants.user;
+										    	 Log.d("user11",user.getObjectId());
+										    	 ParseRelation relationPost = user.getRelation("UserPost");
+										    	 relationPost.add(testObject);
+										    	 user.save();
+											} 
+											catch (ParseException e2) 
+											{
+												e2.printStackTrace();
+											}
 										}
 									});
 						    		Intent i=new Intent(Constants.homePage);
@@ -201,7 +331,19 @@ public class AddPost extends Activity
 								{
 									Log.d("upload","uploaded");
 									testObject.put("photo", file);
-									testObject.saveInBackground();
+									try 
+									{
+										testObject.save();
+										ParseUser user=Constants.user;
+								    	 Log.d("user11",user.getObjectId());
+								    	 ParseRelation relationPost = user.getRelation("UserPost");
+								    	 relationPost.add(testObject);
+								    	 user.save();
+									} 
+									catch (ParseException e2) 
+									{
+										e2.printStackTrace();
+									}
 								}
 							});
 				    		Intent i=new Intent(Constants.homePage);
@@ -210,6 +352,21 @@ public class AddPost extends Activity
 				}	
 				else
 				{
+					
+					try 
+					{
+						testObject.save();
+						ParseUser user=Constants.user;
+				    	 Log.d("user11",user.getObjectId());
+				    	 ParseRelation relationPost = user.getRelation("UserPost");
+				    	 relationPost.add(testObject);
+				    	 user.save();
+					} 
+					catch (ParseException e2) 
+					{
+						e2.printStackTrace();
+					}
+					
 					Intent i=new Intent(Constants.homePage);
 					startActivity(i);
 				}
@@ -319,6 +476,33 @@ public class AddPost extends Activity
 
 	}
 
+	public void setLocationSpinner()
+	{
+		//get all the objects
+		String[] array_spinner = null;
+		ParseUser user=Constants.user;
+		ParseRelation relationLocation = user.getRelation("UserLocation");
+		ParseQuery queryLocation = relationLocation.getQuery();
+		try 
+		{
+			Locations = queryLocation.find();
+			
+			array_spinner = new String[Locations.size()+1];
+			array_spinner[0]="Current Location";
+			for(int i=0;i<Locations.size();i++)
+			{
+				array_spinner[i+1] =Locations.get(i).getString("Name");
+			}
+		} 
+		catch (ParseException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//now use queryLike like normal query
+		ArrayAdapter<String>adapter = new ArrayAdapter<String>(AddPost.this,android.R.layout.simple_spinner_dropdown_item, array_spinner);
+		sploc.setAdapter(adapter);
+	}
 
 
 }

@@ -10,5 +10,6 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/Danish Goel/Downloads/jars/Parse-1.8.1/bolts-android-1.1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Danish Goel/Downloads/jars/Parse-1.8.1/Parse-1.8.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/google-play-services_lib/libs/google-play-services.jar"/>
+	<classpathentry exported="true" kind="lib" path="E:/adt-bundle-windows-x86_64-20140702/adt-bundle-windows-x86_64-20140702/sdk/extras/android/support/v7/recyclerview/libs/android-support-v7-recyclerview.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

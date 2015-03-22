@@ -142,9 +142,10 @@ public class CustomList extends BaseAdapter
 		           		(TextView)viewGroup.findViewById(R.id.place_rating));	
 				            view = viewGroup;
 			        
-			        holderPost.place_Title.setText(currentObject.getName());
+
+				    holderPost.place_Title.setText(currentObject.getName());
 			        holderPost.place_Details.setText(currentObject.getVicinity());
-			        holderPost.place_Type.setText(currentObject.getTypes().toString());
+			        holderPost.place_Type.setText(currentObject.getTypeString());
 			        holderPost.place_Timing.setText(currentObject.getOpening_hours());
 			        holderPost.place_Rating.setText(currentObject.getRating());
 			        return view;

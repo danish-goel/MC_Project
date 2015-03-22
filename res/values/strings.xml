@@ -5,6 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="app_id">812131722141226</string>
+    <string name="save_this_location">Save this Location</string>
     <string name="search_hint">Search Nearby Posts and Places</string>
 
 </resources>

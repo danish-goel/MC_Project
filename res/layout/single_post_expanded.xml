@@ -81,6 +81,14 @@
         android:maxLines="2"
         android:ellipsize="end"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <ImageButton 
+        android:id="@+id/like"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/unlike"
+        android:clickable="true"
+        />
 
     <TextView
         android:id="@+id/poster_name"
@@ -89,6 +97,13 @@
         android:layout_gravity="right"
         android:layout_marginBottom="16dp"
         android:text="Poster" />
+    
+    <ImageView
+        android:id="@+id/poste_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        />
 		
 	</LinearLayout>    
 

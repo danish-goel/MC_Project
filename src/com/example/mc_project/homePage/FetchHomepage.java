@@ -72,7 +72,7 @@ public class FetchHomepage extends ActionBarActivity
 			
 			setContentView(R.layout.blank);
 
-			Parse.initialize(this, "cIlG71ZlahKyRJv8kaJ0L2y6hDbdvixZyimny8tH", "QhqzYsrDG8GwvzTqvX2LcV6ZgCAhhy2pPW4Corg7");
+			
 			Log.d("home","fetching homepage");
 			/*------Toolbar----------*/
 //			Toolbar toolbar = (Toolbar) findViewById(R.id.my_awesome_toolbar);
