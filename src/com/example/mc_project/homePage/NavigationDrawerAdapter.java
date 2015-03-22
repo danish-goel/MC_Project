@@ -80,7 +80,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
 
 
-    NavigationDrawerAdapter(String Titles[],int Icons[],String Name,String Email, int Profile)
+    public NavigationDrawerAdapter(String Titles[],int Icons[],String Name,String Email, int Profile)
     { // MyAdapter Constructor with titles and icons parameter
         // titles, icons, name, email, profile pic are passed from the main activity as we
         mNavTitles = Titles;                //have seen earlier

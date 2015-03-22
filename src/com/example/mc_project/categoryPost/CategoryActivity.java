@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.ListIterator;
 import com.example.mc_project.R;
 import com.example.mc_project.classes.Constants;
+import com.example.mc_project.homePage.Homepage;
+import com.example.mc_project.homePage.NavigationDrawerAdapter;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -19,8 +21,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,11 +42,10 @@ import com.parse.ParseUser;
 
 public class CategoryActivity extends ActionBarActivity 
 {
-	
+	RecyclerView mRightNavigationDrawerRecyclerView;
 	private static final int NUM_PAGES =4;
 	private ViewPager mPager;
 	private PagerAdapter mPagerAdapter;
-	private ListView mDrawerList;
 	private String[] mTitles;
 	private DrawerLayout mDrawerLayout;
 	static ActionBarDrawerToggle drawerToggle;
@@ -91,9 +96,8 @@ public class CategoryActivity extends ActionBarActivity
         mSlidingTabLayout.setViewPager(mPager);
         
 
-        
+        setRightDrawer();
         mTitles = Constants.getDrawerItems();
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         
         drawerToggle= new ActionBarDrawerToggle(this, mDrawerLayout,toolbar, R.string.app_name, R.string.app_name)
@@ -116,11 +120,6 @@ public class CategoryActivity extends ActionBarActivity
             } 
         };
         mDrawerLayout.setDrawerListener(drawerToggle);
-        mDrawerList.setAdapter((ListAdapter) new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_activated_1, mTitles));
-        // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-        mDrawerList.setItemChecked(0, true); 
         drawerToggle.syncState();
 	}
 	
@@ -176,16 +175,77 @@ public class CategoryActivity extends ActionBarActivity
 			{
 				Intent intent=Constants.selectItem(position);
 				startActivity(intent);
-				mDrawerLayout.closeDrawer(mDrawerList);
+				mDrawerLayout.closeDrawer(mRightNavigationDrawerRecyclerView);
 			}
 		}
 
 		
 		public void openDrawer(View v)
 		{
-			mDrawerLayout.openDrawer(mDrawerList);
+			mDrawerLayout.openDrawer(mRightNavigationDrawerRecyclerView);
 			//Toast.makeText(this, "adas", 0).show();
 		}
+		
+		  public void setRightDrawer()
+		    {
+		        String TITLES[] = Constants.getDrawerItems();
+		        int ICONS[] = {R.drawable.ic_home,R.drawable.ic_calender,R.drawable.ic_mail};
+
+		        //Similarly we Create a String Resource for the name and email in the header view
+		        //And we also create a int resource for profile picture in the header view
+
+		        String NAME =Constants.user_name;
+		        String EMAIL =Constants.user_email;
+		        int PROFILE = R.drawable.user;
+		        mRightNavigationDrawerRecyclerView = (RecyclerView) findViewById(R.id.RightNavigationDrawerRecyclerView); // Assigning the RecyclerView Object to the xml View
+		        mRightNavigationDrawerRecyclerView.setHasFixedSize(true);
+		        NavigationDrawerAdapter mRightNavigationDrawerAdapter = new NavigationDrawerAdapter(TITLES,ICONS,NAME,EMAIL,PROFILE);
+		        mRightNavigationDrawerRecyclerView.setAdapter(mRightNavigationDrawerAdapter);
+
+		        final GestureDetector mGestureDetector = new GestureDetector(CategoryActivity.this, new GestureDetector.SimpleOnGestureListener()
+		        {
+
+		            @Override public boolean onSingleTapUp(MotionEvent e)
+		            {
+		                return true;
+		            }
+
+		        });
+
+		        mRightNavigationDrawerRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener()
+		        {
+		            @Override
+		            public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent)
+		            {
+		                View child = recyclerView.findChildViewUnder(motionEvent.getX(),motionEvent.getY());
+
+
+
+		                if(child!=null && mGestureDetector.onTouchEvent(motionEvent))
+		                {
+		                    mDrawerLayout.closeDrawer(mRightNavigationDrawerRecyclerView);
+		                    int position=recyclerView.getChildPosition(child);
+		                    Intent i=Constants.selectItem(position-1);
+		                    startActivity(i);
+		                    return true;
+
+		                }
+		                return false;
+		            }
+
+					@Override
+					public void onTouchEvent(RecyclerView arg0, MotionEvent arg1) {
+						// TODO Auto-generated method stub
+						
+					}
+		        });
+
+//		        mRightNavigationDrawerRecyclerView.setOnClickListener(new RightDrawerItemClickListener());
+
+		        RecyclerView.LayoutManager mLayoutManager= new LinearLayoutManager(this);                 // Creating a layout Manager
+
+		        mRightNavigationDrawerRecyclerView.setLayoutManager(mLayoutManager);
+		    }
 
 
 
