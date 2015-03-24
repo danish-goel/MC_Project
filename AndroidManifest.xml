@@ -162,6 +162,16 @@
             </intent-filter>
         </activity>
         
+         <activity
+            android:name="com.example.mc_project.message.NewMessage"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.example.mc_project.message.NewMessage" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        
         <activity
             android:name="com.example.mc_project.friends.ShowFriends"
             android:screenOrientation="portrait" >

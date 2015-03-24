@@ -24,7 +24,9 @@ import android.widget.ListView;
 
 public class ShowFriends extends ActionBarActivity 
 {
-	List<ParseObject> Users=new ArrayList<>();
+	List<ParseUser> Users=new ArrayList<>();
+	List<ParseUser> Friends=new ArrayList<>();
+	List<String> FriendsUserNames=new ArrayList<>();
 	ListView listView;
 	CustomList cList;
 	ProgressDialog pd;
@@ -57,11 +59,20 @@ public class ShowFriends extends ActionBarActivity
 		protected Void doInBackground(Void... params) 
 		{
 			ParseUser user=Constants.user;
-			ParseQuery<ParseObject> queryUser=new ParseQuery<ParseObject>("_User");
+			ParseQuery<ParseUser> queryUser=new ParseQuery<ParseUser>("_User");
+			
+			ParseRelation relationFriends = user.getRelation("UserFriends");
+			ParseQuery queryFriends = relationFriends.getQuery();
 			try 
 			{
 				Users=queryUser.find();
+				Friends=queryFriends.find();
+				for(ParseUser single:Friends)
+				{
+					FriendsUserNames.add(single.getUsername());
+				}
 				Log.d("users",Users.toString());
+				Log.d("friends",Friends.toString());
 			} 
 			catch (ParseException e) 
 			{
@@ -73,7 +84,7 @@ public class ShowFriends extends ActionBarActivity
 		@Override
 		protected void onPostExecute(Void result) 
 		{
-			cList = new CustomList(Users,getApplicationContext());
+			cList = new CustomList(Users,FriendsUserNames,getApplicationContext());
 		    listView.setAdapter(cList);
 			try{pd.setCancelable(true);}catch(Exception e){}
 			try{pd.dismiss();}catch(Exception e){}

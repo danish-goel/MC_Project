@@ -2254,7 +2254,7 @@ containing a value of this type.
         public static final int video=0x7f020091;
     }
     public static final class id {
-        public static final int Name=0x7f06009e;
+        public static final int Name=0x7f0600a1;
         public static final int OrHeader=0x7f060094;
         public static final int RightNavigationDrawerRecyclerView=0x7f060058;
         public static final int action_bar=0x7f060044;
@@ -2271,7 +2271,7 @@ containing a value of this type.
         public static final int action_mode_bar_stub=0x7f060040;
         public static final int action_mode_close_button=0x7f060033;
         public static final int activity_chooser_view_content=0x7f060034;
-        public static final int add=0x7f06009f;
+        public static final int add=0x7f0600a2;
         public static final int always=0x7f060020;
         public static final int authButton=0x7f060095;
         public static final int beginning=0x7f060025;
@@ -2342,7 +2342,7 @@ containing a value of this type.
         public static final int image_time=0x7f06007e;
         public static final int image_timing=0x7f060078;
         public static final int large=0x7f060002;
-        public static final int like=0x7f0600a0;
+        public static final int like=0x7f0600a3;
         public static final int likeButton=0x7f06008e;
         public static final int list=0x7f060084;
         public static final int listMode=0x7f060016;
@@ -2351,6 +2351,7 @@ containing a value of this type.
         public static final int loginButton=0x7f060093;
         public static final int map=0x7f060097;
         public static final int match_parent=0x7f06000e;
+        public static final int message=0x7f06009f;
         public static final int middle=0x7f060026;
         public static final int monochrome=0x7f060015;
         public static final int my_awesome_toolbar=0x7f060052;
@@ -2371,7 +2372,7 @@ containing a value of this type.
         public static final int post_details=0x7f060080;
         public static final int post_time=0x7f06007f;
         public static final int post_title=0x7f06007c;
-        public static final int poste_image=0x7f0600a1;
+        public static final int poste_image=0x7f0600a4;
         public static final int poster_name=0x7f060081;
         public static final int production=0x7f060009;
         public static final int progress_circular=0x7f06002f;
@@ -2381,8 +2382,8 @@ containing a value of this type.
         public static final int rowText=0x7f06009d;
         public static final int sandbox=0x7f06000a;
         public static final int satellite=0x7f060004;
-        public static final int save_location=0x7f0600a2;
-        public static final int search=0x7f0600a4;
+        public static final int save_location=0x7f0600a5;
+        public static final int search=0x7f0600a7;
         public static final int search_badge=0x7f060048;
         public static final int search_bar=0x7f060047;
         public static final int search_button=0x7f060049;
@@ -2393,7 +2394,7 @@ containing a value of this type.
         public static final int search_plate=0x7f06004c;
         public static final int search_src_text=0x7f06004d;
         public static final int search_voice_btn=0x7f060051;
-        public static final int select_map=0x7f0600a3;
+        public static final int select_map=0x7f0600a6;
         public static final int selectionDetails=0x7f06000d;
         public static final int shortcut=0x7f06003d;
         public static final int showCustom=0x7f06001c;
@@ -2402,9 +2403,11 @@ containing a value of this type.
         public static final int sliding_tabs=0x7f060053;
         public static final int small=0x7f060000;
         public static final int spin=0x7f060088;
+        public static final int spinnerFriends=0x7f06009e;
         public static final int spinnerlocation=0x7f060089;
         public static final int split_action_bar=0x7f06002c;
         public static final int strict_sandbox=0x7f06000b;
+        public static final int submit=0x7f0600a0;
         public static final int submit_area=0x7f06004f;
         public static final int swipe_container=0x7f060083;
         public static final int tabMode=0x7f060017;
@@ -2499,14 +2502,15 @@ containing a value of this type.
         public static final int menu_select_option=0x7f030031;
         public static final int navigation_drawer_header=0x7f030032;
         public static final int navigation_drawer_item_row=0x7f030033;
-        public static final int newmessage=0x7f030034;
-        public static final int option_fragment=0x7f030035;
-        public static final int search=0x7f030036;
-        public static final int show_people=0x7f030037;
-        public static final int single_place_expanded=0x7f030038;
-        public static final int single_post_expanded=0x7f030039;
-        public static final int splash_layout=0x7f03003a;
-        public static final int support_simple_spinner_dropdown_item=0x7f03003b;
+        public static final int new_message=0x7f030034;
+        public static final int newmessage=0x7f030035;
+        public static final int option_fragment=0x7f030036;
+        public static final int search=0x7f030037;
+        public static final int show_people=0x7f030038;
+        public static final int single_place_expanded=0x7f030039;
+        public static final int single_post_expanded=0x7f03003a;
+        public static final int splash_layout=0x7f03003b;
+        public static final int support_simple_spinner_dropdown_item=0x7f03003c;
     }
     public static final class menu {
         public static final int addpost=0x7f0d0000;

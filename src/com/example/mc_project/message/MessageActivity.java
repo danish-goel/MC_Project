@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class MessageActivity extends ActionBarActivity 
@@ -52,6 +53,20 @@ public class MessageActivity extends ActionBarActivity
 		setSupportActionBar(toolbar);
 		listView = (ListView) findViewById(R.id.list);
 		new BgTask().execute();
+		
+		Button newstory;
+		newstory=(Button)findViewById(R.id.newstorybutton);
+	 	
+		newstory.setOnClickListener(new View.OnClickListener() 
+		{
+			
+			@Override
+			public void onClick(View arg0) 
+			{
+				Intent addPost=new Intent("com.example.mc_project.message.NewMessage");
+				startActivity(addPost);
+			}
+		});
 		/*------------------Navigation Drawer-------------------------*/
 		 
 		 mTitles = Constants.getDrawerItems();
@@ -188,8 +203,8 @@ public class MessageActivity extends ActionBarActivity
 	            }
 
 				@Override
-				public void onTouchEvent(RecyclerView arg0, MotionEvent arg1) {
-					// TODO Auto-generated method stub
+				public void onTouchEvent(RecyclerView arg0, MotionEvent arg1) 
+				{
 					
 				}
 	        });
